@@ -106,10 +106,10 @@ const pixelId="1487750289922224";
 const consentKey="pip_meta_pixel_consent_v1";
 // Only meaningful guide/project detail pages; do not count indexes or the homepage.
 function contentCategory(){
- const path=location.pathname.replace(/\\/index\\.html$/,"/").replace(/\\/$/,"/");
- if(/^\\/guides\\/[^/]+\\/$/.test(path))return "guide";
- if(/^\\/projects\\/[^/]+\\/$/.test(path))return "project";
- if(/^\\/tumblewood\\/$/.test(path))return "series";
+ const parts=location.pathname.split("/").filter(Boolean).filter(p=>p!=="index.html");
+ if(parts.length===2&&parts[0]==="guides")return "guide";
+ if(parts.length===2&&parts[0]==="projects")return "project";
+ if(parts.length===1&&parts[0]==="tumblewood")return "series";
  return null;
 }
 function trackContentView(){
