@@ -4,3 +4,12 @@
 
 /* Keep project images, embedded media and long source URLs inside narrow screens. */
 .feature img,.feature iframe{max-width:100%}.feature{min-width:0;overflow-wrap:anywhere}.feature ul,.feature ol{padding-left:1.5rem}.feature li{margin:.45rem 0}@media(max-width:570px){.feature{padding:22px}.feature h2{overflow-wrap:break-word}}
+
+
+/* Consent choice for optional Meta Pixel; remains readable on narrow screens. */
+.pip-meta-consent{position:fixed;z-index:10000;bottom:16px;left:16px;right:16px;max-width:560px;padding:18px 20px;border:1px solid var(--line,#315064);border-radius:12px;background:#102437;color:#f5f6ee;box-shadow:0 8px 32px #0009}
+.pip-meta-consent p{margin:0 0 12px;color:#f5f6ee;font-size:.92rem}
+.pip-meta-consent a{color:#8ad6c6}
+.pip-meta-consent>div{display:flex;gap:10px;flex-wrap:wrap}
+.pip-meta-consent button{cursor:pointer;padding:9px 14px;border:1px solid #8ad6c6;border-radius:7px;background:transparent;color:#f5f6ee;font:inherit}
+.pip-meta-consent button:last-child{background:#8ad6c6;color:#091422;font-weight:700}
