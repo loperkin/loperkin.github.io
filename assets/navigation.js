@@ -124,6 +124,8 @@ function setChoice(value){
  storeConsent(value);
  if(value==="accepted")startPixel();
  document.getElementById("pip-meta-consent")?.remove();
+ // A previously loaded pixel cannot be unloaded reliably; reload after revocation.
+ if(value==="declined"&&enabled)location.reload();
 }
 function showChoice(){
  if(document.getElementById("pip-meta-consent"))return;
