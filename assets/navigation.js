@@ -104,6 +104,20 @@ if(frames.length){
 "use strict";
 const pixelId="1487750289922224";
 const consentKey="pip_meta_pixel_consent_v1";
+// Only meaningful guide/project detail pages; do not count indexes or the homepage.
+function contentCategory(){
+ const parts=location.pathname.split("/").filter(Boolean).filter(p=>p!=="index.html");
+ if(parts.length===2&&parts[0]==="guides")return "guide";
+ if(parts.length===2&&parts[0]==="projects")return "project";
+ if(parts.length===1&&parts[0]==="tumblewood")return "series";
+ return null;
+}
+function trackContentView(){
+ const category=contentCategory();
+ if(category&&typeof window.fbq==="function"){
+  window.fbq("track","ViewContent",{content_type:"article",content_category:category});
+ }
+}
 let enabled=false;
 function readConsent(){try{return localStorage.getItem(consentKey)}catch(_){return null}}
 function storeConsent(value){try{localStorage.setItem(consentKey,value)}catch(_){}}
@@ -119,6 +133,7 @@ function startPixel(){
  })(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");
  window.fbq("init",pixelId);
  window.fbq("track","PageView");
+ trackContentView();
 }
 function setChoice(value){
  storeConsent(value);
@@ -148,6 +163,12 @@ document.addEventListener("click",e=>{
  if(!enabled||typeof window.fbq!=="function")return;
  const link=e.target.closest?.("a[href]");
  if(!link)return;
+ // Email contact intent, not a lead submission or confirmed message.
+ if(link.protocol==="mailto:"){
+  const address=link.href.slice(7).split("?")[0].toLowerCase();
+  if(address==="purposeinpractice5@gmail.com")window.fbq("track","Contact",{contact_method:"email"});
+  return;
+ }
  let url;try{url=new URL(link.href,location.href)}catch(_){return}
  if(!["http:","https:"].includes(url.protocol))return;
  const host=url.hostname.toLowerCase();
